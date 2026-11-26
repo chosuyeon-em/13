@@ -5,29 +5,28 @@
 struct Book 
 {
     int number;
-    char title[20];
+    char title[10];
 };
 
-int main(void)
+void main(void)
 {
-    struct Book *p;
+    int i;
+    struct Book **bookshelf;
 
-    //book구조체 2개 동적 할당
-    p = (struct Book *)malloc(2*sizeof(struct Book));
+    bookshelf = (struct Book **)malloc(3*sizeof(bookshelf));
+    for (i=0; i<3; i++)
+        bookshelf[i] = (struct Book *)malloc(10*sizeof(struct Book));
 
-    if (p == NULL)
-    {
-        printf("memory allocation error\n");
-    }
+    bookshelf[1][3].number = 5;
+    strcpy(bookshelf[1][3].title, "C++ Programming");
 
-    p->number = 1;
-    strcpy(p->title, "C Programming");
+    (bookshelf[2]+4)->number = 3;
+    strcpy((bookshelf[2]+4)->title, "Communications Theory");
 
-    (p+1)->number = 2;
-    strcpy((p+1)->title, "Electronics");
-
-    printf("%i : %s\n", p->number, p->title);
-    printf("%i : %s\n", (p+1)->number, (p+1)->title);
-
-    free(p);
+    printf("book (1,3) : %i, %s\n", (bookshelf[1]+3)->number, (bookshelf[1]+3)->title);
+    printf("book (2,4) : %i, %s\n", bookshelf[2][4].number, bookshelf[2][4].title);
+    for (i=0; i<3; i++)
+        free(bookshelf[i]);
+    
+    return;
 }
